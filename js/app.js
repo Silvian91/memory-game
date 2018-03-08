@@ -2,9 +2,9 @@
  * Create a list that holds all of your cards
  */
 
-var cards = document.getElementsByClassName("card");
-var cardValues = [];
-var turnedCards = 0;
+let cards = document.getElementsByClassName("card");
+cards = Array.from(cards);
+
 
 /*
  * Display the cards on the page
@@ -28,9 +28,18 @@ function shuffle(array) {
 
     return array;
 }
-console.log(cards);
-cards = shuffle(cards);
-console.log(cards);
+
+let shuffled = shuffle(cards);
+let deck = document.getElementsByClassName('deck')[0];
+deck.innerHTML = '';
+shuffled.forEach(item => deck.appendChild(item));
+
+let openList = [];
+
+cards.addEventListener('click', function (){
+  console.log('sky blue');
+});
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
