@@ -38,11 +38,13 @@ let eventClickCard = cards.forEach(function(element) {
     element.classList.add('open', 'show');
     let turnedCard = element.querySelectorAll("i");
     openCards.push(turnedCard);
-    if (openCards[0] === openCards[1]) {
+    let firstTurnedCard = openCards[0].item(0).className;
+    let secondTurnedCard = openCards[1].item(0).className;
+    if (firstTurnedCard === secondTurnedCard) {
       console.log("match");
     } else {
       console.log("not a match");
-    };
+    }
   });
 });
 
