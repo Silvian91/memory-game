@@ -26,14 +26,33 @@ function shuffle(array) {
   return array;
 }
 
-let shuffled = shuffle(cards);
+const shuffled = shuffle(cards);
 let deck = document.getElementsByClassName('deck')[0];
 deck.innerHTML = '';
 shuffled.forEach(item => deck.appendChild(item));
 
 let openCards = [];
+let matchedCards = [];
 
-let eventClickCard = cards.forEach(function(element) {
+const hasClass = (element, className) =>
+  element.classList.contains(className)
+
+let openCard = 0;
+
+const cardClicked = (event) => {
+  const card = event.target;
+  const open = hasClass(card, 'open');
+  const solved = false; // calculate if this card has class 'solved'
+  if (open) {
+    console.log('card is already opened')
+  } else {
+    card.classList.add('open', 'show');
+    const position = card.getBoundingClientRect();
+    // put position into openCard variable
+  }
+}
+
+function silvianMess(element) {
   element.addEventListener('click', function() {
     element.classList.add('open', 'show');
     let turnedCard = element.querySelectorAll("i");
@@ -41,12 +60,20 @@ let eventClickCard = cards.forEach(function(element) {
     let firstTurnedCard = openCards[0].item(0).className;
     let secondTurnedCard = openCards[1].item(0).className;
     if (firstTurnedCard === secondTurnedCard) {
-      console.log("match");
+      let bothCards = document.getElementsByClassName('open show');
+      bothCards[0].classList.add('match');
+      bothCards[1].classList.add('match');
+      matchedCards.push(bothCards);
+      console.log(matchedCards);
     } else {
-      console.log("not a match");
+
     }
   });
-});
+}
+
+cards.forEach((card) =>
+  card.addEventListener('click', cardClicked)
+);
 
 /*
 * set up the event listener for a card. If a card is clicked:
