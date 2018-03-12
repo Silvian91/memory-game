@@ -38,6 +38,7 @@ const hasClass = (element, className) =>
   element.classList.contains(className)
 
 let openCard = 0;
+let storedCards = [];
 
 const cardClicked = (event) => {
   const card = event.target;
@@ -48,27 +49,18 @@ const cardClicked = (event) => {
   } else {
     card.classList.add('open', 'show');
     const position = card.getBoundingClientRect();
-    // put position into openCard variable
-  }
-}
-
-function silvianMess(element) {
-  element.addEventListener('click', function() {
-    element.classList.add('open', 'show');
-    let turnedCard = element.querySelectorAll("i");
-    openCards.push(turnedCard);
-    let firstTurnedCard = openCards[0].item(0).className;
-    let secondTurnedCard = openCards[1].item(0).className;
-    if (firstTurnedCard === secondTurnedCard) {
-      let bothCards = document.getElementsByClassName('open show');
-      bothCards[0].classList.add('match');
-      bothCards[1].classList.add('match');
-      matchedCards.push(bothCards);
-      console.log(matchedCards);
+    storedCards.push(card.childNodes[1]);
+    if (storedCards[0].className === storedCards[1].className) {
+      const turnedCards = document.getElementsByClassName('open show');
+      turnedCards[0].classList.add('match');
+      turnedCards[1].classList.add('match');
+      storedCards.splice(0, 2);
     } else {
-
+      let resetCards = document.getElementsByClassName('open show');
+        resetCards[1].classList.remove('open', 'show');
+        resetCards[0].classList.remove('open', 'show');
     }
-  });
+  }
 }
 
 cards.forEach((card) =>
