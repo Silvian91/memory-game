@@ -2,7 +2,7 @@ let cards = document.getElementsByClassName("card");
 cards = Array.from(cards);
 
 const shuffled = shuffle(cards);
-let deck = document.getElementsByClassName('deck')[0];
+const deck = document.getElementsByClassName('deck')[0];
 deck.innerHTML = '';
 shuffled.forEach(item => deck.appendChild(item));
 
@@ -23,14 +23,13 @@ function shuffle(array) {
 const hasClass = (element, className) =>
 element.classList.contains(className)
 
-let openCard = 0;
-let storedCards = [];
-let turnedCards = [];
+const openCard = 0;
+const storedCards = [];
+const turnedCards = [];
 
 const cardClicked = (event) => {
   const card = event.target;
   const open = hasClass(card, 'open');
-  const solved = false; // calculate if this card has class 'solved'
   if (open) {
     console.log('card is already opened')
   } else {
@@ -46,8 +45,8 @@ const cardClicked = (event) => {
       turnedCards.splice(0, 2);
     } else {
       turnedCards[1].classList.add('incorrect');
-      let timerFunction = setTimeout(function() {
-        let incorrectCards = document.querySelectorAll('.show:not(.match)');
+      const timerFunction = setTimeout(function() {
+        const incorrectCards = document.querySelectorAll('.show:not(.match)');
         for (var i = 0; i <= incorrectCards.length; i++) {
           incorrectCards[i].classList.remove('open', 'show', 'incorrect');
           incorrectCards[i].classList.remove('open', 'show', 'incorrect');
