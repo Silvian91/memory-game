@@ -1,12 +1,10 @@
 let cards = document.getElementsByClassName("card");
 cards = Array.from(cards);
 
-/*
-* Display the cards on the page
-*   - shuffle the list of cards using the provided "shuffle" method below
-*   - loop through each card and create its HTML
-*   - add each card's HTML to the page
-*/
+const shuffled = shuffle(cards);
+const deck = document.getElementsByClassName('deck')[0];
+deck.innerHTML = '';
+shuffled.forEach(item => deck.appendChild(item));
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
@@ -22,34 +20,24 @@ function shuffle(array) {
   return array;
 }
 
-const shuffled = shuffle(cards);
-let deck = document.getElementsByClassName('deck')[0];
-deck.innerHTML = '';
-shuffled.forEach(item => deck.appendChild(item));
-
-let openCards = [];
-let matchedCards = [];
-
 const hasClass = (element, className) =>
-  element.classList.contains(className)
+element.classList.contains(className)
 
-let openCard = 0;
-let storedCards = [];
-let turnedCards = [];
+const openCard = 0;
+const storedCards = [];
+const turnedCards = [];
 
 const cardClicked = (event) => {
   const card = event.target;
   const open = hasClass(card, 'open');
-  const solved = false; // calculate if this card has class 'solved'
   if (open) {
     console.log('card is already opened')
-    //const alreadyCLicked = document.getElementsByClassName('match');
-    //card.removeEventListener('click', alreadyCLicked);
   } else {
     card.classList.add('open', 'show');
-    const position = card.getBoundingClientRect();
-    storedCards.push(card.childNodes[1]);
+    const alreadyCLicked = document.getElementsByClassName('match')
+    card.removeEventListener('click', alreadyCLicked);
     turnedCards.push(card);
+    storedCards.push(card.childNodes[1]);
     if (storedCards[0].className === storedCards[1].className) {
       turnedCards[0].classList.add('match');
       turnedCards[1].classList.add('match');
@@ -57,8 +45,8 @@ const cardClicked = (event) => {
       turnedCards.splice(0, 2);
     } else {
       turnedCards[1].classList.add('incorrect');
-      let timerFunction = setTimeout(function() {
-        let incorrectCards = document.querySelectorAll('.show:not(.match)');
+      const timerFunction = setTimeout(function() {
+        const incorrectCards = document.querySelectorAll('.show:not(.match)');
         for (var i = 0; i <= incorrectCards.length; i++) {
           incorrectCards[i].classList.remove('open', 'show', 'incorrect');
           incorrectCards[i].classList.remove('open', 'show', 'incorrect');
@@ -71,7 +59,7 @@ const cardClicked = (event) => {
 }
 
 cards.forEach((card) =>
-  card.addEventListener('click', cardClicked)
+card.addEventListener('click', cardClicked)
 );
 
 /*
