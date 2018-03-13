@@ -1,7 +1,3 @@
-/*
-* Create a list that holds all of your cards
-*/
-
 let cards = document.getElementsByClassName("card");
 cards = Array.from(cards);
 
@@ -39,6 +35,7 @@ const hasClass = (element, className) =>
 
 let openCard = 0;
 let storedCards = [];
+let turnedCards = [];
 
 const cardClicked = (event) => {
   const card = event.target;
@@ -46,19 +43,29 @@ const cardClicked = (event) => {
   const solved = false; // calculate if this card has class 'solved'
   if (open) {
     console.log('card is already opened')
+    //const alreadyCLicked = document.getElementsByClassName('match');
+    //card.removeEventListener('click', alreadyCLicked);
   } else {
     card.classList.add('open', 'show');
     const position = card.getBoundingClientRect();
     storedCards.push(card.childNodes[1]);
+    turnedCards.push(card);
     if (storedCards[0].className === storedCards[1].className) {
-      const turnedCards = document.getElementsByClassName('open show');
       turnedCards[0].classList.add('match');
       turnedCards[1].classList.add('match');
       storedCards.splice(0, 2);
+      turnedCards.splice(0, 2);
     } else {
-      let resetCards = document.getElementsByClassName('open show');
-        resetCards[1].classList.remove('open', 'show');
-        resetCards[0].classList.remove('open', 'show');
+      turnedCards[1].classList.add('incorrect');
+      let timerFunction = setTimeout(function() {
+        let incorrectCards = document.querySelectorAll('.show:not(.match)');
+        for (var i = 0; i <= incorrectCards.length; i++) {
+          incorrectCards[i].classList.remove('open', 'show', 'incorrect');
+          incorrectCards[i].classList.remove('open', 'show', 'incorrect');
+        }
+      }, 500);
+      storedCards.splice(0, 2);
+      turnedCards.splice(0, 2);
     }
   }
 }
