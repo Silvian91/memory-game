@@ -20,8 +20,7 @@ function shuffle(array) {
   return array;
 }
 
-const hasClass = (element, className) =>
-element.classList.contains(className)
+const hasClass = (element, className) => element.classList.contains(className);
 
 const openCard = 0;
 const storedCards = [];
@@ -55,6 +54,10 @@ const cardClicked = (event) => {
       storedCards.splice(0, 2);
       turnedCards.splice(0, 2);
     }
+  }
+  const finishedDeck = document.getElementsByClassName('match')
+  if (finishedDeck.length === 16) {
+    console.log("finished");
   }
 }
 
