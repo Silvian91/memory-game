@@ -115,3 +115,15 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+.timer {
+     padding-left: 35px;
+}
+
+/*
+ * Styles for the Congratulations Page
+ */
+
+.section {
+    display: none;
+}
