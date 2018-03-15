@@ -21,49 +21,67 @@ function shuffle(array) {
 }
 
 const hasClass = (element, className) => element.classList.contains(className);
-
 const openCard = 0;
 const storedCards = [];
 const turnedCards = [];
 
+const hasMatchedCards = (storedCards) => {
+  return storedCards.length === 2 &&
+           storedCards[0].className === storedCards[1].className
+}
+
+//timer functionality:
+const firstCardClicked = (event) => {
+  const card = event.target;
+  const timer = setInterval(iteration, 1000);
+  let counter = 0;
+  let timerHTMLSelector = document.querySelector('.timer');
+  function iteration() {
+    timerHTMLSelector.innerHTML = counter;
+    counter++;
+  }
+  cards.forEach(card => card.removeEventListener('click', firstCardClicked));
+}
+
+const finishedDeck = document.getElementsByClassName('match')
+if (finishedDeck.length === 16) {
+  clearInterval(timer);
+}
+
 const cardClicked = (event) => {
   const card = event.target;
   const open = hasClass(card, 'open');
+  const alreadyCLicked = document.getElementsByClassName('match');
   if (open) {
     console.log('card is already opened')
   } else {
     card.classList.add('open', 'show');
-    const alreadyCLicked = document.getElementsByClassName('match')
     card.removeEventListener('click', alreadyCLicked);
     turnedCards.push(card);
     storedCards.push(card.childNodes[1]);
-    if (storedCards[0].className === storedCards[1].className) {
-      turnedCards[0].classList.add('match');
-      turnedCards[1].classList.add('match');
+    if (hasMatchedCards(storedCards)) {
+      turnedCards.forEach(card => card.classList.add('match'));
       storedCards.splice(0, 2);
       turnedCards.splice(0, 2);
-    } else {
+    } else if (turnedCards[1]) {
       turnedCards[1].classList.add('incorrect');
+
       const timerFunction = setTimeout(function() {
         const incorrectCards = document.querySelectorAll('.show:not(.match)');
-        for (var i = 0; i <= incorrectCards.length; i++) {
-          incorrectCards[i].classList.remove('open', 'show', 'incorrect');
-          incorrectCards[i].classList.remove('open', 'show', 'incorrect');
-        }
+        Array.from(incorrectCards).forEach(card => {
+          card.classList.remove('open', 'show', 'incorrect');
+        });
       }, 500);
       storedCards.splice(0, 2);
       turnedCards.splice(0, 2);
     }
   }
-  const finishedDeck = document.getElementsByClassName('match')
-  if (finishedDeck.length === 16) {
-    console.log("finished");
-  }
 }
 
-cards.forEach((card) =>
-card.addEventListener('click', cardClicked)
-);
+cards.forEach(card => {
+  card.addEventListener('click', cardClicked);
+  card.addEventListener('click', firstCardClicked);
+});
 
 /*
 * set up the event listener for a card. If a card is clicked:
