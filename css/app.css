@@ -76,7 +76,7 @@ h1 {
     font-size: 33px;
 }
 
-.deck .card.show.incorrect{
+.deck .card.show.red{
     font-size: 33px;
     background: red;
     pointer-events: none;
