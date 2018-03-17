@@ -1,3 +1,4 @@
+//functionality for shuffling cards:
 let cards = document.getElementsByClassName("card");
 cards = Array.from(cards);
 
@@ -8,7 +9,6 @@ shuffled.forEach(item => deck.appendChild(item));
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
-
   while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
@@ -16,7 +16,6 @@ function shuffle(array) {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
   return array;
 }
 
@@ -31,53 +30,68 @@ const hasMatchedCards = (storedCards) => {
 }
 
 //timer functionality:
-const firstCardClicked = (event) => {
+let firstCardClicked = (event) => {
   const card = event.target;
-  const timer = setInterval(iteration, 1000);
+  let timer = setInterval(iteration, 1000);
   let counter = 0;
   let timerHTMLSelector = document.querySelector('.timer');
   function iteration() {
     timerHTMLSelector.innerHTML = counter;
     counter++;
   }
+  debugger;
   cards.forEach(card => card.removeEventListener('click', firstCardClicked));
 }
 
-const finishedDeck = document.getElementsByClassName('match')
-if (finishedDeck.length === 16) {
-  clearInterval(timer);
+//functionality for increasing moves and changing stars:
+let moves = 1;
+const movesHTMLSelector = document.querySelector('.moves');
+const firstStar = document.querySelector('.first');
+const secondStar = document.querySelector('.second');
+const thirdStar = document.querySelector('.third');
+debugger;
+function increaseMoves() {
+   movesHTMLSelector.innerHTML = moves++;
+   if (movesHTMLSelector.innerHTML == 20) {
+   firstStar.classList.add('fa-star-o');
+   }
+   if (movesHTMLSelector.innerHTML == 40) {
+   secondStar.classList.add('fa-star-o');
+   }
+   if (movesHTMLSelector.innerHTML == 60) {
+   thirdStar.classList.add('fa-star-o');
+   }
 }
 
+//functionality for clicking and matching/not matching cards:
 const cardClicked = (event) => {
   const card = event.target;
   const open = hasClass(card, 'open');
   const alreadyCLicked = document.getElementsByClassName('match');
-  if (open) {
-    console.log('card is already opened')
-  } else {
-    card.classList.add('open', 'show');
-    card.removeEventListener('click', alreadyCLicked);
-    turnedCards.push(card);
-    storedCards.push(card.childNodes[1]);
-    if (hasMatchedCards(storedCards)) {
-      turnedCards.forEach(card => card.classList.add('match'));
-      storedCards.splice(0, 2);
-      turnedCards.splice(0, 2);
-    } else if (turnedCards[1]) {
-      turnedCards[1].classList.add('incorrect');
-
-      const timerFunction = setTimeout(function() {
-        const incorrectCards = document.querySelectorAll('.show:not(.match)');
-        Array.from(incorrectCards).forEach(card => {
-          card.classList.remove('open', 'show', 'incorrect');
-        });
-      }, 500);
-      storedCards.splice(0, 2);
-      turnedCards.splice(0, 2);
-    }
+  const getCardsForStar = document.getElementsByClassName('red');
+  card.classList.add('open', 'show');
+  card.removeEventListener('click', alreadyCLicked);
+  turnedCards.push(card);
+  storedCards.push(card.childNodes[1]);
+  increaseMoves();
+  if (hasMatchedCards(storedCards)) {
+    turnedCards.forEach(card => card.classList.add('match'));
+    storedCards.splice(0, 2);
+    turnedCards.splice(0, 2);
+  } else if (turnedCards[1]) {
+    turnedCards[1].classList.add('red');
+    const timerFunction = setTimeout(function() {
+      const incorrectCards = document.querySelectorAll('.show:not(.match)');
+      Array.from(incorrectCards).forEach(card => {
+        card.classList.remove('open', 'show', 'red');
+      });
+    }, 500);
+    storedCards.splice(0, 2);
+    turnedCards.splice(0, 2);
   }
 }
 
+// click events for timer and cards:
 cards.forEach(card => {
   card.addEventListener('click', cardClicked);
   card.addEventListener('click', firstCardClicked);
@@ -91,5 +105,5 @@ cards.forEach(card => {
 *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
 *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
 *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
-*    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+*     if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
 */
