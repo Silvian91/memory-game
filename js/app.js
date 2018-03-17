@@ -29,17 +29,17 @@ const hasMatchedCards = (storedCards) => {
            storedCards[0].className === storedCards[1].className
 }
 
-//timer functionality:
+//timer start and stop functionality:
 let firstCardClicked = (event) => {
   const card = event.target;
   let timer = setInterval(iteration, 1000);
   let counter = 0;
-  let timerHTMLSelector = document.querySelector('.timer');
   function iteration() {
-    timerHTMLSelector.innerHTML = counter;
-    counter++;
+    document.querySelector('.timer').innerHTML = counter++;
+    if (document.querySelectorAll('.match').length == 16) {
+      clearInterval(timer);
+    }
   }
-  debugger;
   cards.forEach(card => card.removeEventListener('click', firstCardClicked));
 }
 
@@ -49,7 +49,6 @@ const movesHTMLSelector = document.querySelector('.moves');
 const firstStar = document.querySelector('.first');
 const secondStar = document.querySelector('.second');
 const thirdStar = document.querySelector('.third');
-debugger;
 function increaseMoves() {
    movesHTMLSelector.innerHTML = moves++;
    if (movesHTMLSelector.innerHTML == 20) {
