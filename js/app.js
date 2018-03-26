@@ -29,6 +29,12 @@ const hasMatchedCards = (storedCards) => {
            storedCards[0].className === storedCards[1].className
 }
 
+//functionality for restarting the game:
+const restartButton = document.querySelector('.fa-repeat');
+const restartGame = (event) => {
+  window.location.reload(true);
+}
+
 //timer start and stop functionality:
 let firstCardClicked = (event) => {
   const card = event.target;
@@ -95,6 +101,8 @@ cards.forEach(card => {
   card.addEventListener('click', cardClicked);
   card.addEventListener('click', firstCardClicked);
 });
+
+restartButton.addEventListener('click', restartGame);
 
 /*
 * set up the event listener for a card. If a card is clicked:
